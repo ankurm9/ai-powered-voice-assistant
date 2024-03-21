@@ -1,6 +1,6 @@
 import streamlit as st
 import os
-import pyttsx3
+import pyttsx3  # Import pyttsx3 for potential text-to-speech
 import datetime
 import speech_recognition as sr
 import webbrowser
@@ -42,20 +42,10 @@ def chat(query):
     response = response.last.text
     chatStr += f"{response}\n"
 
-    # Choose one of the following methods for text-to-speech:
+    # **Isolate Text-to-Speech Issues:**
+    # Comment out the speak call temporarily to see if the error persists.
 
-    # Method 1: Using pyttsx3 (if dependencies are installed)
-    try:
-        # Create a TTS engine (if pyttsx3 works)
-        engine = pyttsx3.init()
-        engine.say(response)
-        engine.runAndWait()
-    except (ImportError, OSError):  # Handle potential errors
-        st.error("Text-to-speech functionality is unavailable. Consider a cloud service.")
-
-    # Method 2: Using a cloud text-to-speech service (replace with your chosen service)
-    # You'll need to implement the logic to interact with the cloud service API
-    # here, potentially using libraries like requests.
+    # speak(response)  # Uncomment if text-to-speech is working
 
     st.text(response)
     return response
@@ -67,7 +57,8 @@ def main():
     global chatStr
     chatStr = " "
 
-    speak("Hello, I'm Jarvis. How can I assist you today?")  # Initial greeting (without TTS)
+    # Initial greeting (without TTS for now)
+    st.write("Hello, I'm Jarvis. How can I assist you today?")
 
     query = st.text_input("You:")
 
