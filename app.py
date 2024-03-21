@@ -1,6 +1,6 @@
 import streamlit as st
 import os
-import pyttsx3
+import pyttsx3  # Import pyttsx3 for potential text-to-speech
 import datetime
 import speech_recognition as sr
 import webbrowser
@@ -42,18 +42,13 @@ def chat(query):
     response = response.last.text
     chatStr += f"{response}\n"
 
-    speak(response)
+    # **Isolate Text-to-Speech Issues:**
+    # Comment out the speak call temporarily to see if the error persists.
+
+    # speak(response)  # Uncomment if text-to-speech is working
+
     st.text(response)
     return response
-
-# Function to convert text to speech
-def speak(text):
-    # Create a TTS engine
-    engine = pyttsx3.init()
-
-    # Say the text
-    engine.say(text)
-    engine.runAndWait()
 
 def main():
     st.title("Jarvis")
@@ -62,10 +57,11 @@ def main():
     global chatStr
     chatStr = " "
 
-    speak("Hello, I'm Jarvis. How can I assist you today?")
+    # Initial greeting (without TTS for now)
+    st.write("Hello, I'm Jarvis. How can I assist you today?")
 
     query = st.text_input("You:")
-    
+
     if st.button("Submit"):
         st.write("Jarvis is typing...")
         response = chat(query)
