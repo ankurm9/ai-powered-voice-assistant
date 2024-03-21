@@ -42,18 +42,23 @@ def chat(query):
     response = response.last.text
     chatStr += f"{response}\n"
 
-    speak(response)
+    # Choose one of the following methods for text-to-speech:
+
+    # Method 1: Using pyttsx3 (if dependencies are installed)
+    try:
+        # Create a TTS engine (if pyttsx3 works)
+        engine = pyttsx3.init()
+        engine.say(response)
+        engine.runAndWait()
+    except (ImportError, OSError):  # Handle potential errors
+        st.error("Text-to-speech functionality is unavailable. Consider a cloud service.")
+
+    # Method 2: Using a cloud text-to-speech service (replace with your chosen service)
+    # You'll need to implement the logic to interact with the cloud service API
+    # here, potentially using libraries like requests.
+
     st.text(response)
     return response
-
-# Function to convert text to speech
-def speak(text):
-    # Create a TTS engine
-    engine = pyttsx3.init()
-
-    # Say the text
-    engine.say(text)
-    engine.runAndWait()
 
 def main():
     st.title("Jarvis")
@@ -62,10 +67,10 @@ def main():
     global chatStr
     chatStr = " "
 
-    speak("Hello, I'm Jarvis. How can I assist you today?")
+    speak("Hello, I'm Jarvis. How can I assist you today?")  # Initial greeting (without TTS)
 
     query = st.text_input("You:")
-    
+
     if st.button("Submit"):
         st.write("Jarvis is typing...")
         response = chat(query)
